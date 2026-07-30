@@ -24,3 +24,14 @@ class Company(db.Model):
     financial_year_end = db.Column(db.Date)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+# Client model
+# Represents a client that belong to a company
+class Client(db.Model):
+    __tablename__ = "clients"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100))
+    phone = db.Column(db.String(20))
+    company_id = db.Column(db.String, db.ForeignKey("companies.id"), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
