@@ -35,3 +35,17 @@ class Client(db.Model):
     phone = db.Column(db.String(20))
     company_id = db.Column(db.String, db.ForeignKey("companies.id"), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+# Project model
+# Represents projects by users for companies
+class Project(db.Model):
+    __tablename__ = "projects"
+
+    id = db.Column(db.Integer, primary_key=True)
+    client_id = db.Column(db.Integer, db.ForeignKey("clients.id"), nullable=False)
+    company_id = db.Column(db.Integer, db.ForeignKey("companies.id"), nullable=False)
+    title = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(50), default="Ongoing")
+    start_date = db.Column(db.Date)
+    end_date = db.Column(db.Date)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
