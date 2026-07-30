@@ -1,10 +1,11 @@
 from flask import Flask, render_template
 from extensions import db, migrate
+import models
 
 # Flask app creation
 app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database/app.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
