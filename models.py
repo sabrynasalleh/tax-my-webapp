@@ -63,3 +63,17 @@ class Income(db.Model):
     amount = db.Column(db.Float)
     date = db.Column(db.Date)
     created_at = db.Column (db.Date, default=datetime.utcnow)
+
+# Expense model
+# Represents a business expense ro overseee company spending and profit
+class Expense (db.Model):
+    __tablename__ = "expenses"
+
+    id = db.Column(db.Integer, primary_key=True)
+    company_id = db.Column(db.Integer, db.ForeignKey("companies.id"), nullable=False)
+    category = db.Column(db.String(100), nullable=False)
+    desc = db.Column(db.String(200))
+    amount = db.Column(db.Float, nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    receipt = db.Column(db.String(255))
+    created_at = db.Column(db.DateTime, default = datetime.utcnow)
