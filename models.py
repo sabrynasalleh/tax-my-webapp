@@ -49,3 +49,17 @@ class Project(db.Model):
     start_date = db.Column(db.Date)
     end_date = db.Column(db.Date)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+# Income model
+# Represents income received by a company (can be linked to clients and projects)
+class Income(db.Model):
+    __tablename__ = "income"
+
+    id = db.Column(db.Integer, primary_key=True)
+    company_id = db.Column(db.Integer, db.ForeignKey("companies.id"), nullable=False)
+    client_id = db.Column(db.Integer, db.ForeignKey("clients.id"), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey("projects.id"), nullable=False)
+    desc = db.Column(db.String(200))
+    amount = db.Column(db.Float)
+    date = db.Column(db.Date)
+    created_at = db.Column (db.Date, default=datetime.utcnow)
