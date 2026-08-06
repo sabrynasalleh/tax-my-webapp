@@ -23,6 +23,11 @@ login_manager.init_app(app)
 # Redirects to login route if a user tries to access a protected page without logging in
 login_manager.login_view = "login"
 
+# Loads user from database using user ID stored in session
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 # Routes
 @app.route("/")
 def home():
