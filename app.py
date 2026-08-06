@@ -1,16 +1,27 @@
 from flask import Flask, render_template
-from extensions import db, migrate
+from extensions import db, migrate, login_manager
 import models
 
 # Flask app creation
 app = Flask(__name__)
 
+# Database configuration:
+# Defines where the application stores its database.
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
 
+# Prevents unnecessary tracking overhead from SQLAlchemy.
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+# Connect database feature to Flask app
 db.init_app(app)
 migrate.init_app(app, db)
+
+# Connect authentication system to Flask
+# Enables login sessions and user authentication
+login_manager.init_app(app)
+
+# Redirects to login route if a user tries to access a protected page without logging in
+login_manager.login_view = "login"
 
 # Routes
 @app.route("/")
