@@ -6,6 +6,9 @@ import models
 # Flask app creation
 app = Flask(__name__)
 
+# Used to securely sign session dat.
+app.config["SECRET_KEY"] = "secret-key-change-later"
+
 # Database configuration:
 # Defines where the application stores its database.
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
