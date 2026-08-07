@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from extensions import db, migrate, login_manager
 from auth import auth
+from flask_login import login_required
 import models
 
 # Flask app creation
@@ -41,30 +42,37 @@ def home():
     return render_template("index.html")
 
 @app.route("/dashboard")
+@login_required
 def dashboard():
     return render_template("dashboard.html")
 
 @app.route("/projects")
+@login_required
 def projects():
     return render_template("projects.html")
 
 @app.route("/clients")
+@login_required
 def clients():
     return render_template("clients.html")
 
 @app.route("/income")
+@login_required
 def income():
     return render_template("income.html")
 
 @app.route("/expenses")
+@login_required
 def expenses():
     return render_template("expenses.html")
 
 @app.route("/reports")
+@login_required
 def reports():
     return render_template("reports.html")
 
 @app.route("/settings")
+@login_required
 def settings():
     return render_template("settings.html")
 
