@@ -9,7 +9,7 @@ Login
 
 <br>
 
-<form method="POST">
+<form method="POST" action="{{ url_for('auth.login')}}">
 
     <label>Email</label>
     <input type="email" name="email" required><br>
