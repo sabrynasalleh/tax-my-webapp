@@ -13,26 +13,18 @@ auth = Blueprint("auth", __name__)
 @auth.route("/login", methods=["GET", "POST"])
 def login():
 
-     print("LOGIN ROUTE HIT")
-     print("METHOD:", request.method)
-
      if request.method == "POST":
-
-        print("LOGIN FORM RECEIVED")
 
         email = request.form.get("email")
         password = request.form.get("password")
 
-        print(email)
-        print(password)
-
         # Find user by email
-        #user = models.User.query.filter_by(email=email).first()
+        user = models.User.query.filter_by(email=email).first()
 
-       # if user:
+        if user:
             # Password checking WILL be added
-        #    login_user(user)
-         #   return redirect("home")
+            login_user(user)
+            return redirect("home")
 
      return render_template("login.html")
 
