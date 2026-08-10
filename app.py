@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from extensions import db, migrate, login_manager
 from auth import auth
 from flask_login import login_required
+from company import company
 import models
 
 # Flask app creation
@@ -30,6 +31,10 @@ login_manager.login_view = "auth.login"
 
 # Register authentication routes
 app.register_blueprint(auth)
+
+# Register company route
+app.register_blueprint(company)
+
 
 # Loads user from database using user ID stored in session
 @login_manager.user_loader
