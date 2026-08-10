@@ -7,7 +7,7 @@ Company Profile
 {% block content %}
 <h1>Company Profile</h1>
 
-{% for company on companies %}
+{% for company in companies %}
 
 <h2>{{ company.company_name }}</h2>
 <p>SSM Number: {{ company.ssm_number }}</p>
