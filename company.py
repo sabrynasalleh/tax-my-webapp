@@ -1,19 +1,27 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
+from extensions import db
+from datetime import datetime
 
 company = Blueprint("company", __name__)
 
 # Displays company profile of the logged-in user
-@company.route("/company")
+@company.route("/company", methods=["GET", "POST"])
 @login_required
 def company_profile():
 
-    print("========== COMPANY ROUTE ==========")
-    print("CURRENT USER:", current_user)
-    print("CURRENT USER TYPE:", type(current_user))
-    print("HAS COMPANY:", hasattr(current_user, "company"))
-    print("HAS COMPANIES:", hasattr(current_user, "companies"))
-
     company = current_user.company
+
+    if request.method == "POST":
+        company.company_name = request.form.get("company_name")
+        company.ssm_number = request.form.get("ssm_number")
+        financial_year_end = request.form.get("financial_year_end")
+
+        if financial_year_end:
+            company.financial_year_end = datetime.strptime(financial_year_end, "%Y-%m-%d").date()
+
+        db.session.commit()
+
+        return redirect(url_for("company.company_profile"))
 
     return render_template("company_profile.html", company=company)

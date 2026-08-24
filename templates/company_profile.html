@@ -7,10 +7,17 @@ Company Profile
 {% block content %}
 <h1>Company Profile</h1>
 
+<form method="POST">
 
-<h2>{{ company.company_name }}</h2>
-<p>SSM Number: {{ company.ssm_number }}</p>
-<p>Financial Year End: {{ company.financial_year_end }}</p>
+    <label>Company Name</label>
+    <input type="text" name="company_name" value="{{ company.company_name }}" required><br>
+    <label>SSM Number</label>
+    <input type="text" name="ssm_number" value="{{ company.ssm_number or '' }}" required><br>
+    <label>Financial Year End</label>
+    <input type="date" name="financial_year_end" value="{{ company.financial_year_end or '' }}" required><br>
 
+    <button type="submit">Save changes</button>
+
+</form>
 
 {% endblock %}
