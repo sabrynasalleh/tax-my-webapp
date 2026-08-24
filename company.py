@@ -8,6 +8,12 @@ company = Blueprint("company", __name__)
 @login_required
 def company_profile():
 
-    companies = current_user.companies
+    print("========== COMPANY ROUTE ==========")
+    print("CURRENT USER:", current_user)
+    print("CURRENT USER TYPE:", type(current_user))
+    print("HAS COMPANY:", hasattr(current_user, "company"))
+    print("HAS COMPANIES:", hasattr(current_user, "companies"))
 
-    return render_template("company_profile.html", companies=companies)
+    company = current_user.company
+
+    return render_template("company_profile.html", company=company)

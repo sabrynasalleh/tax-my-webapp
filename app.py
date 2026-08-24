@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from extensions import db, migrate, login_manager
 from auth import auth
-from flask_login import login_required
+from flask_login import login_required, current_user
 from company import company
 import models
 
