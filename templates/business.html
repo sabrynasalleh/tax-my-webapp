@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+Business Management
+{% endblock %}
+
+{% block content %}
+
+<h1>Business Management</h1>
+
+<h2>Add Business</h2>
+
+<form method="POST">
+
+    <label for="business_name">Business Name:</label>
+    <input type="text" id="business_name" name="business_name" required>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description">
+
+    <button type="submit">Add Business</button>
+
+</form>
+
+<h2>Your Businesses</h2>
+
+{% if businesses %}
+
+    {% for business in businesses %}
+
+        <div>
+            <h3>{{ business.business_name }}</h3>
+            <p>{{ business.description }}</p>
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>No businesses have been added yet.</p>
+
+{% endif %}
+
+{% endblock %}

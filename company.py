@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from extensions import db
 from datetime import datetime
+from models import Company
 
 company = Blueprint("company", __name__)
 
@@ -13,6 +14,13 @@ def company_profile():
     company = current_user.company
 
     if request.method == "POST":
+
+        if company is None:
+            company = Company(
+                user_id=current_user.id
+            )
+            db.session.add(company)
+
         company.company_name = request.form.get("company_name")
         company.ssm_number = request.form.get("ssm_number")
         financial_year_end = request.form.get("financial_year_end")

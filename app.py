@@ -3,6 +3,7 @@ from extensions import db, migrate, login_manager
 from auth import auth
 from flask_login import login_required, current_user
 from company import company
+from business import business
 import models
 
 # Flask app creation
@@ -34,6 +35,9 @@ app.register_blueprint(auth)
 
 # Register company route
 app.register_blueprint(company)
+
+# Register business route
+app.register_blueprint(business)
 
 
 # Loads user from database using user ID stored in session
