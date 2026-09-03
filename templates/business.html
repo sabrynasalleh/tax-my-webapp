@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}
+Business Management
+{% endblock %}
+
+{% block content %}
+
+<div class="business-page">
+    <h1>Business Information</h1>
+
+    <div class="card business-form-card">
+
+        <h2>Add Business</h2>
+
+        <form method="POST" action="{{ url_for('business.business_management') }}">
+
+            <label for="business_name">Business Name:</label>
+            <input type="text" id="business_name" name="business_name" required>
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description">
+
+            <button type="submit">Add Business</button>
+
+        </form>
+    </div>
+
+
+    {% if editing_business %}
+
+    <div class="card business-form-card">
+
+        <h2>Edit Business</h2>
+
+        <form method="POST" action="{{ url_for('business.edit_business', business_id=editing_business.id) }}">
+
+            <label for="edit_business_name">Business Name:</label>
+            <input
+                type="text"
+                id="edit_business_name"
+                name="business_name"
+                value="{{ editing_business.business_name }}"
+                required
+            >
+
+            <label for="edit_description">Description</label>
+            <textarea id="edit_description" name="description">{{ editing_business.description }}</textarea>
+
+            <div class="business-buttons">
+
+                <button type="submit">Save changes</button>
+
+                <a href="{{ url_for('business.business_management') }}">Cancel</a>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endif %}
+
+<h2>Your Businesses</h2>
+
+{% if businesses %}
+
+<div class="card-container">
+
+    {% for business in businesses %}
+
+        <div class="card business-card">
+            <h3>{{ business.business_name }}</h3>
+            <p>{{ business.description }}</p>
+        
+            <div clss="business-buttons">
+                <a href="{{ url_for('business.edit_business', business_id=business.id) }}">
+                    Edit
+                </a>
+
+                <form method="POST" action="{{ url_for('business.delete_business', business_id=business.id) }}">
+                    <button type="submit" onclick="return confirm('Are you sure you want to delete this business?');">Delete</button>
+                </form>
+
+            </div>
+
+            {% endfor %}
+        </div>
+
+    {% else %}
+
+        <p>No businesses have been added yet.</p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

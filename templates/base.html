@@ -7,7 +7,7 @@
             {% block title %}
             {% endblock %}
         </title>
-        <link rel="stylesheet" href="static/style.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
         <header>
@@ -17,11 +17,11 @@
 
             <nav class="navbar">
                 <ul class="nav-links">
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="clients.html">Clients</a></li>
-                    <li><a href="income.html">Income</a></li>
-                    <li><a href="expenses.html">Expenses</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/clients">Clients</a></li>
+                    <li><a href="/income">Income</a></li>
+                    <li><a href="/expenses">Expenses</a></li>
                     <li><a href="report.html">Report</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
