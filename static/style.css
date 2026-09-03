@@ -174,3 +174,64 @@ a {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* Business Management */
+
+.business-page{
+    width: 90%;
+    max-width: 1000px;
+    text-align: center;
+}
+
+.business-form-card{
+    background-color: rgb(204, 250, 227);
+    margin: 30px auto;
+    max-width: 500px;
+}
+
+.business-form-card form{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.business-form-card input,
+.business-form-card textarea {
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+
+.business-form-card textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.business-form-card button,
+.business-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+
+.business-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.business-card {
+    background-color: rgb(204, 250, 227);
+}
+
+.business-card p {
+    margin-bottom: 20px;
+}

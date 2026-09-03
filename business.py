@@ -17,13 +17,13 @@ def business_management():
         business_name = request.form.get("business_name")
         description = request.form.get("description")
 
-        new_Business = Business(
+        new_business = Business(
             company_id = company.id,
             business_name = business_name,
             description = description
         )
 
-        db.session.add(new_Business)
+        db.session.add(new_business)
         db.session.commit()
 
         return redirect(url_for("business.business_management"))
@@ -32,5 +32,48 @@ def business_management():
 
     return render_template(
         "business.html",
-        businesses=businesses
+        businesses=businesses,
     )
+
+@business.route("/business/edit/<int:business_id>", methods=["GET", "POST"])
+@login_required
+def edit_business(business_id):
+
+    company = current_user.company
+
+    business_data = Business.query.filter_by(
+        id=business_id,
+        company_id=company.id
+    ).first_or_404()
+
+    if request.method == "POST":
+        business_data.business_name = request.form.get("business_name")
+        business_data.description = request.form.get("description")
+
+        db.session.commit()
+
+        return redirect(url_for("business.business_management"))
+
+    businesses = Business.query.filter_by(company_id=company.id).all()
+
+    return render_template(
+        "business.html",
+        businesses=businesses,
+        editing_business=business_data
+    )
+
+@business.route("/business/delete/<int:business_id>", methods=["POST"])
+@login_required
+def delete_business(business_id):
+
+    company = current_user.company
+
+    business_data = Business.query.filter_by(
+        id=business_id,
+        company_id=company.id
+    ).first_or_404()
+
+    db.session.delete(business_data)
+    db.session.commit()
+
+    return redirect(url_for("business.business_management"))
