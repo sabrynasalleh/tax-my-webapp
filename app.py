@@ -4,6 +4,7 @@ from auth import auth
 from flask_login import login_required, current_user
 from company import company
 from business import business
+from client import client
 import models
 
 # Flask app creation
@@ -38,6 +39,9 @@ app.register_blueprint(company)
 
 # Register business route
 app.register_blueprint(business)
+
+# Register client
+app.register_blueprint(client)
 
 
 # Loads user from database using user ID stored in session

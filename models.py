@@ -2,6 +2,25 @@ from extensions import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
 
+# Association Table
+business_clients = db.Table(
+    "business_clients",
+
+    db.Column(
+        "business_id",
+        db.Integer,
+        db.ForeignKey("businesses.id"),
+        primary_key=True
+    ),
+
+    db.Column(
+        "client_id",
+        db.Integer,
+        db.ForeignKey("clients.id"),
+        primary_key=True
+    )
+)
+
 # User model
 # Represents a user who can log in and own company.
 class User(db.Model, UserMixin):
@@ -56,8 +75,8 @@ class Business(db.Model):
     # One business can have many clients
     clients = db.relationship(
         "Client", 
-        backref="business", 
-        lazy=True
+        secondary=business_clients,
+        back_populates="businesses"
     )
 
     # One business can have many projects
@@ -82,7 +101,7 @@ class Business(db.Model):
     )
 
 # Client model
-# Represents a client that belong to a company
+# Represents a client that can deal with multiple businesses
 class Client(db.Model):
     __tablename__ = "clients"
 
@@ -90,7 +109,6 @@ class Client(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100))
     phone = db.Column(db.String(20))
-    business_id = db.Column(db.Integer, db.ForeignKey("businesses.id"), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # One client can have many projects
@@ -105,6 +123,13 @@ class Client(db.Model):
         "Income",
         backref="client",
         lazy=True
+    )
+
+    # One client can deal with many businesses
+    businesses = db.relationship(
+        "Business",
+        secondary=business_clients,
+        back_populates="clients"
     )
 
 # Project model

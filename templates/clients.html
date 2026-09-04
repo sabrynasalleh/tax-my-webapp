@@ -1,14 +1,142 @@
 {% extends "base.html" %}
 
 {% block title %}
-Clients
+Clients Management
 {% endblock %}
 
 {% block content %}
-<h1>Clients</h1>
 
-<P>
-    Client management feature coming soon.
-</P>
+<div class="client-page">
+    <h1>Clients Information</h1>
+
+    <div>
+
+        <h2>Add Client</h2>
+
+        <form method="POST" action="{{ url_for('client.client_management') }}">
+            
+            <label for="name">Client Name:</label>
+            <input type="text" id="name" name="name" required> <br>
+
+            <label for="email">Client Email:</label>
+            <input type="email" id="email" name="email"> <br>
+
+            <label for="phone">Client Tel:</label>
+            <input type="text" id="phone" name="phone"> <br>
+
+            <label for="business_id">Business:</label>
+            <select id="business_id" name="business_id" required>
+
+                <option value="" disabled selected>Select a business</option>
+
+                {% for business in businesses %}
+
+                    <option value="{{ business.id }}">
+                        {{ business.business_name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+            <br><button type="submit">Add Client</button>
+        
+        </form>
+
+    </div>
+
+    {% if editing_client %}
+
+    <div class="card client-form-card">
+
+        <h2>Edit Client</h2>
+
+        <form method="POST" action="{{ url_for('client.edit_client', client_id=editing_client.id) }}">
+            
+            <label for="edit_client_name">Client Name:</label>
+            <input
+                type="text"
+                id="edit_client_name"
+                name="name"
+                value="{{ editing_client.name }}"
+                required
+            >
+
+            <label for="edit_email">Email</label>
+            <textarea id="edit_email" name="email">{{ editing_client.email }}</textarea>
+
+            <label for="edit_phone">Telephone</label>
+            <textarea id="edit_phone" name="phone">{{ editing_client.phone }}</textarea>
+
+            <label>Businesses:</label>
+
+            <div class="business-checklist">
+
+                {% for business in businesses %}
+
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="business_ids"
+                            value="{{ business.id }}"
+                            {% if editing_client and business in editing_client.businesses %}
+                                checked
+                            {% endif %}
+                        >
+
+                        {{ business.business_name }}
+
+                    </label>
+                {% endfor %}
+
+            </div>
+
+            <div class="client-buttons">
+
+                <button type="submit">Save changes</button>
+
+                <a href="{{ url_for('client.client_management') }}">Cancel</a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <h2>Your Clients</h2>
+
+    {% if clients %}
+
+        <div class="card-container">
+
+            {% for client in clients %}
+ 
+                <div class="card client-card">
+
+                    <h3>{{ client.name }}</h3>
+                    
+                    <p>Email: {{ client.email }}</p>
+
+                    <p>Phone: {{ client.phone }}</p>
+
+                    <p>Business: {{ client.business.business_name }}</p>
+
+                    <div class="client-buttons">
+                        <a href="{{ url_for('client.edit_client', client_id=client.id) }}">Edit</a>
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p>No clients have been added yet.</p>
+
+    {% endif %}
+
+</div>
 
 {% endblock %}
