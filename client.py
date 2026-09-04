@@ -23,8 +23,11 @@ def client_management():
         phone = request.form.get("phone")
         business_ids = request.form.getlist("business_ids")
 
-        # Ensure at least one business is chosen
+        # Validate client name
+        if not name:
+            return "Client name is required.", 400
 
+        # Ensure at least one business is chosen
         if not business_ids:
             return "Please select at least one business.", 400
 
@@ -33,6 +36,10 @@ def client_management():
             Business.id.in_(business_ids),
             Business.company_id == company.id
         ).all()
+
+        # Make sure selected businesses are valid
+        if len(selected_businesses) != len(business_ids):
+            return "Invalid business selection.", 400
 
         # Create new client
         new_client =  Client(
@@ -81,6 +88,11 @@ def edit_client(client_id):
         client_data.phone = request.form.get("phone")
         business_ids = request.form.getlist("business_ids")
 
+        # Validate client name
+        if not client_data.name:
+            return "Client name is required.", 400
+
+
         if not business_ids:
             return "Please select at least one business.", 400
 
@@ -89,6 +101,11 @@ def edit_client(client_id):
             Business.company_id == company.id
         ).all()
 
+         # Make sure selected businesses are valid
+        if len(selected_businesses) != len(business_ids):
+            return "Invalid business selection.", 400
+        
+        # Update business relationships
         client_data.businesses = selected_businesses
 
         db.session.commit()
