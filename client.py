@@ -70,9 +70,9 @@ def edit_client(client_id):
     # Get correct company belonging to the current user
     company = current_user.company
 
-    client_data = Client.query.join(Client.businesses).filter(
+    client_data = Client.query.filter(
         Client.id == client_id, 
-        Business.company_id == company.id
+        Client.businesses.any(Business.company_id == company.id)
     ).first_or_404()
 
     if request.method == "POST":
@@ -112,3 +112,23 @@ def edit_client(client_id):
         clients=clients,
         editing_client=client_data
     )
+
+# Route for deleting client
+@client.route("/client/delete/<int:client_id>", methods=["POST"])
+@login_required
+def delete_client(client_id):
+
+    company = current_user.company
+
+    # Find client
+    client_data = Client.query.join(Client.businesses).filter(
+            Client.id == client_id, 
+            Client.businesses.any(Business.company_id == company.id)
+        ).first_or_404()
+
+    # Delete client
+    db.session.delete(client_data)
+    db.session.commit()
+
+    return redirect(url_for("client.client_management"))
+
