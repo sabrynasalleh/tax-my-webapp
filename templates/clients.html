@@ -24,20 +24,25 @@ Clients Management
             <label for="phone">Client Tel:</label>
             <input type="text" id="phone" name="phone"> <br>
 
-            <label for="business_id">Business:</label>
-            <select id="business_id" name="business_id" required>
-
-                <option value="" disabled selected>Select a business</option>
+            <label>Businesses:</label>
+            <div class="business-checklist">
 
                 {% for business in businesses %}
 
-                    <option value="{{ business.id }}">
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="business_ids"
+                            value="{{ business.id }}"
+                        >
+
                         {{ business.business_name }}
-                    </option>
+
+                    </label>
 
                 {% endfor %}
 
-            </select>
+            </div>
 
             <br><button type="submit">Add Client</button>
         
@@ -79,7 +84,7 @@ Clients Management
                             type="checkbox"
                             name="business_ids"
                             value="{{ business.id }}"
-                            {% if editing_client and business in editing_client.businesses %}
+                            {% if business in editing_client.businesses %}
                                 checked
                             {% endif %}
                         >
@@ -87,6 +92,7 @@ Clients Management
                         {{ business.business_name }}
 
                     </label>
+
                 {% endfor %}
 
             </div>
@@ -102,6 +108,8 @@ Clients Management
         </form>
 
     </div>
+
+    {% endif %}
 
     <h2>Your Clients</h2>
 
@@ -119,7 +127,13 @@ Clients Management
 
                     <p>Phone: {{ client.phone }}</p>
 
-                    <p>Business: {{ client.business.business_name }}</p>
+                    <p>Business:</p>
+
+                    <ul>
+                        {% for business in client.businesses %}
+                            <li>{{ business.business_name }}</li>
+                        {% endfor %}
+                    </ul>
 
                     <div class="client-buttons">
                         <a href="{{ url_for('client.edit_client', client_id=client.id) }}">Edit</a>

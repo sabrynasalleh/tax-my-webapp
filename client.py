@@ -21,21 +21,28 @@ def client_management():
         name = request.form.get("name")
         email = request.form.get("email")
         phone = request.form.get("phone")
-        business_id = request.form.get("business_id")
+        business_ids = request.form.getlist("business_ids")
+
+        # Ensure at least one business is chosen
+
+        if not business_ids:
+            return "Please select at least one business.", 400
 
         # Find selected business to the current user's company
-        business_data = Business.query.filter_by(
-            id=business_id,
-            company_id=company.id
-        ).first_or_404()
+        selected_businesses = Business.query.filter(
+            Business.id.in_(business_ids),
+            Business.company_id == company.id
+        ).all()
 
-        # Create new client and associate with selected business
+        # Create new client
         new_client =  Client(
             name=name,
             email=email,
-            phone=phone,
-            business_id=business_data.id
+            phone=phone
         )
+
+        # Associate the client with selected business
+        new_client.businesses = selected_businesses
 
         db.session.add(new_client)
         db.session.commit()
@@ -44,7 +51,9 @@ def client_management():
 
     businesses = Business.query.filter_by(company_id=company.id).all()
 
-    clients = Client.query.join(Business).filter(Business.company_id == company.id).all()
+    clients = Client.query.filter(
+        Client.businesses.any(Business.company_id == company.id)
+    ).all()
 
     # Display page
     return render_template(
@@ -61,7 +70,7 @@ def edit_client(client_id):
     # Get correct company belonging to the current user
     company = current_user.company
 
-    client_data = Client.query.join(Business).filter(
+    client_data = Client.query.join(Client.businesses).filter(
         Client.id == client_id, 
         Business.company_id == company.id
     ).first_or_404()
@@ -70,14 +79,17 @@ def edit_client(client_id):
         client_data.name = request.form.get("name")
         client_data.email = request.form.get("email")
         client_data.phone = request.form.get("phone")
-        business_id = request.form.get("business_id")
+        business_ids = request.form.getlist("business_ids")
 
-        business_data = Business.query.filter_by(
-            id=business_id,
-            company_id=company.id
-        ).first_or_404()
+        if not business_ids:
+            return "Please select at least one business.", 400
 
-        client_data.business_id = business_data.id
+        selected_businesses = Business.query.filter(
+            Business.id.in_(business_ids),
+            Business.company_id == company.id
+        ).all()
+
+        client_data.businesses = selected_businesses
 
         db.session.commit()
 
@@ -89,8 +101,8 @@ def edit_client(client_id):
     ).all()
 
     # Get all clients
-    clients = Client.query.join(Business).filter(
-        Business.company_id == company.id
+    clients = Client.query.filter(
+        Client.businesses.any(Business.company_id == company.id)
     ).all()
 
     # Display client page with the selected client for editing
