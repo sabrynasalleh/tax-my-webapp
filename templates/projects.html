@@ -1,14 +1,136 @@
 {% extends "base.html" %}
 
 {% block title %}
-Projects
+Projects Management
 {% endblock %}
 
 {% block content %}
-<h1>Projects</h1>
 
-<P>
-    Project management feature coming soon.
-</P>
+<div class="project-page">
+    <h1>Project Management</h1>
+
+    <div class="card project-form-card">
+
+        <h2>Add Project</h2>
+
+        <form method="POST" action="{{ url_for('project.project_management') }}">
+
+            <label for="title">Project Title:</label>
+            <input type="text" id="title" name="title" required> <br>
+
+            <label for="status">Project Status:</label>
+            <div class="project-status">
+                <select id="status" name="status">
+                    <option value="Ongoing">Ongoing</option>
+                    <option value="OnHold">On Hold</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select> 
+            </div>
+            <br>
+
+            <label for="business_id">Business:</label>
+            <select id="business_id" name="business_id" required>
+
+                <option value="">Select a business</option>
+
+                {% for business in businesses %}
+
+                    <option value="{{ business.id }}">
+                        {{ business.business_name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+            <br>
+
+            <label for="client_id">Client:</label>
+
+            <select id="client_id" name="client_id" required>
+
+                <option value="">Select a client</option>
+
+                {% for client in clients %}
+
+                    <option value="{{ client.id }}">
+                        {{ client.name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+            <br>
+
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date">
+
+            <br>
+
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date">
+
+            <button type="submit">Add Project</button>
+
+        </form>
+
+        
+    </div>
+
+
+
+    <h2>Your Projects</h2>
+
+    {% if projects %}
+
+        <div class="project-table-container">
+
+            <table class="project-table">
+
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Business</th>
+                        <th>Client</th>
+                        <th>Status</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for project in projects %}
+
+                        <tr>
+                            <td>{{ project.title }}</td>
+
+                            <td>{{ project.business.business_name }}</td>
+
+                            <td>{{ project.client.name }}</td>
+
+                            <td>{{ project.status }}</td>
+
+                            <td>{{ project.start_date or "-" }}</td>
+
+                            <td>{{ project.end_date or "-" }}</td>
+                        </tr>
+
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <p>No projects have been added yet.</p>
+
+    {% endif %}
+
+
+</div>
 
 {% endblock %}
