@@ -422,3 +422,84 @@ a {
     outline: none;
     border-color: rgb(16, 166, 16);
 }
+
+/* Project Management */
+
+.project-page {
+    width: 90%;
+    max-width: 1200px;
+    text-align: center;
+}
+
+.project-form-card {
+    background-color: rgb(204, 250, 227);
+    margin: 30px auto;
+    max-width: 500px;
+}
+
+.project-form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.project-form-card input,
+.project-form-card select {
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+}
+
+
+/* Project Table */
+
+.project-table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 30px;
+}
+
+.project-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.project-table th,
+.project-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.project-table th {
+    background-color: darkseagreen;
+    font-weight: bold;
+}
+
+.project-table tr:hover {
+    background-color: rgb(239, 250, 244);
+}
+
+.project-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.project-buttons a {
+    padding: 6px 12px;
+    background-color: rgb(204, 250, 227);
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.project-buttons a:hover {
+    opacity: 0.8;
+}
