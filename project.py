@@ -139,6 +139,12 @@ def edit_project(project_id):
                 "%Y-%m-%d"
             ).date()
 
+        if not start_date:
+            return "Invalid start date selection.", 400
+
+        if not end_date:
+            return "Invalid end date selection.", 400
+
 
         # Update existing project
         project_data.title = title
@@ -177,6 +183,24 @@ def edit_project(project_id):
         editing_project=project_data
     )
 
+# Route for deleting project
+@project.route("/projects/delete/<int:project_id>", methods=["POST"])
+@login_required
+def delete_project(project_id):
+
+    company = current_user.company
+
+    # Find the project only if it belongs to the user's company
+    project_data = Project.query.filter(
+        Project.id == project_id,
+        Project.business.has(Business.company_id == company.id)
+    ).first_or_404()
+
+    # Delete selected project
+    db.session.delete(project_data)
+    db.session.commit()
+
+    return redirect(url_for("project.project_management"))
 
 
 

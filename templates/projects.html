@@ -12,7 +12,11 @@ Projects Management
     <div class="card project-form-card">
 
         {% if editing_project %}
+
+        <div>
             <h2>Edit Project</h2>
+        </div>    
+
         {% else %}
             <h2>Add Project</h2>
         {% endif %}
@@ -78,7 +82,7 @@ Projects Management
 
                 {% for business in businesses %}
 
-                    <option value="{{ business.id }}">
+                    <option>
                         {{ business.business_name }}
                     </option>
 
@@ -180,6 +184,14 @@ Projects Management
                                     <a href="{{ url_for('project.edit_project', project_id=project.id) }}">
                                         Edit
                                     </a>
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('project.delete_project', project_id=project.id) }}"
+                                        onsubmit="return confirm('Are you sure you want to delete this project?');"
+                                    >
+                                        <button type="submit">Delete</button>
+                                    </form>
                                  </div>
                             </td>
                         </tr>
