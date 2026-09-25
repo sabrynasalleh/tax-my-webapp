@@ -522,3 +522,29 @@ a {
 .project-buttons button:hover {
     opacity: 0.8;
 }
+
+/* Flash message */
+
+.flash-messages {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+.flash-message {
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 15px;
+    text-align: center;
+}
+
+.flash-message.error {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.flash-message.success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}

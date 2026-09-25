@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, redirect, request, url_for, flash
 from flask_login import current_user, login_required
 from extensions import db
 from datetime import datetime
@@ -24,11 +24,38 @@ def project_management():
         end_date = request.form.get("end_date")
 
         # Convert date time
-        start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
-        end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+        try:
+            if start_date:
+                start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+
+            if end_date:
+                end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+
+        except ValueError:
+            flash("Please enter valid dates.", "error")
+            return redirect(url_for("project.project_management"))
 
         business_id = request.form.get("business_id")
         client_id = request.form.get("client_id")
+
+        # Validation
+        if not title:
+            flash("Project title is required.", "error")
+            return redirect(url_for('project.project_management'))
+
+        if len(title) > 50:
+            flash("Project title must have 50 characters or fewer.", "error")
+            return redirect(url_for('project.project_management'))
+
+        # Validate business and client selection
+        if not business_id:
+            flash("Please select a business.", "error")
+            return redirect(url_for("project.project_management"))
+
+        # Validate date error
+        if start_date and end_date and end_date < start_date:
+            flash("End date cannot be before start date.", "error")
+            return redirect(url_for("project.project_management"))
 
         # Find selected business
         business_data = Business.query.filter_by(
@@ -36,19 +63,21 @@ def project_management():
             company_id=company.id
         ).first()
 
+        # Business validation
+        if not business_data:
+            flash("Please select a valid business.", "error")
+            return redirect(url_for("project.project_management"))
+
         # Find selected client
         client_data = Client.query.filter(
             Client.id == client_id,
             Client.businesses.any(Business.company_id == company.id)
         ).first()
 
-        # Business validity
-        if not business_data:
-            return "Invalid business selection.", 400
-
-        # Client validity
+        # Client validation
         if not client_data:
-            return "Invalid client selection.", 400
+            flash("Please sekect a valid client.", "error")
+            return redirect(url_for("project.project_management"))
 
         # Create new project
         new_project = Project(
@@ -63,6 +92,8 @@ def project_management():
         # Add project to database
         db.session.add(new_project)
         db.session.commit()
+
+        flash("Project created successfully.", "success")
 
         # Return to project page
         return redirect(url_for("project.project_management"))
@@ -99,7 +130,7 @@ def edit_project(project_id):
     ).first_or_404()
 
     if request.method == "POST":
-        title = request.form.get("title")
+        title = request.form.get("title", "").strip()
         status = request.form.get("status")
         start_date = request.form.get("start_date")
         end_date = request.form.get("end_date")
@@ -120,32 +151,57 @@ def edit_project(project_id):
         ).first()
 
         # Validation
-        if not business_data:
-            return "Invalid business selection.", 400
+        if not title:
+            flash("Project title is required.", "error")
+            return redirect(
+                url_for("project.edit_project", project_id=project_id)
+            )
+
+        if len(title) > 50:
+            flash("Project title must be 50 characters or fewer.", "error")
+            return redirect(
+                url_for("project.edit_project", project_id=project_id)
+            )
+
+        if not business_id:
+            flash("Please select a business.", "error")
+            return redirect(
+                url_for("project.edit_project", project_id=project_id)
+            )
 
         if not client_id:
-            return "Invalid client selection.", 400
+            flash("Please select a client", "error")
+            return redirect(
+                url_for("project.edit_project", project_id=project_id)
+            )
 
         # Convert date strings into Python date objects
-        if start_date:
-            start_date = datetime.strptime(
-                start_date,
-                "%Y-%m-%d"
-            ).date()
+        try:
+            if start_date:
+                start_date = datetime.strptime(
+                    start_date,
+                    "%Y-%m-%d"
+                ).date()
 
-        if end_date:
-            end_date = datetime.strptime(
-                end_date,
-                "%Y-%m-%d"
-            ).date()
+            if end_date:
+                end_date = datetime.strptime(
+                    end_date,
+                    "%Y-%m-%d"
+                ).date()
 
-        if not start_date:
-            return "Invalid start date selection.", 400
+        except ValueError:
+            flash("Please enter valid dates.", "error")
+            return redirect(
+                url_for("project.edit_project", project_id=project_id)
+            )
 
-        if not end_date:
-            return "Invalid end date selection.", 400
+        if start_date and end_date and end_date < start_date:
+            flash("End date cannot be before the start date.", "error")
+            return redirect(
+                url_for("project.edit_project", project_id=project_id)
+            )
 
-
+       
         # Update existing project
         project_data.title = title
         project_data.status = status

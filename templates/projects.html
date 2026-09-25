@@ -44,30 +44,22 @@ Projects Management
                 <select id="status" name="status">
 
                     <option value="Ongoing"
-                        {% if editing_project and editing_project.status == "Ongoing" %}
-                            selected
-                        {% endif %}>
+                        {% if editing_project and editing_project.status == "Ongoing" %}selected{% endif %}>
                         Ongoing
                     </option>
 
                     <option value="OnHold"
-                        {% if editing_project and editing_project.status == "OnHold" %}
-                            selected
-                        {% endif %}>
+                        {% if editing_project and editing_project.status == "OnHold" %}selected{% endif %}>
                         On Hold
                     </option>
 
                     <option value="Completed"
-                        {% if editing_project and editing_project.status == "Completed" %}
-                            selected
-                        {% endif %}>
+                        {% if editing_project and editing_project.status == "Completed" %}selected{% endif %}>
                         Completed
                     </option>
 
                     <option value="Cancelled"
-                        {% if editing_project and editing_project.status == "Cancelled" %}
-                            selected
-                        {% endif %}>
+                        {% if editing_project and editing_project.status == "Cancelled" %}selected{% endif %}>
                         Cancelled
                     </option>
 
@@ -82,7 +74,7 @@ Projects Management
 
                 {% for business in businesses %}
 
-                    <option>
+                    <option value="{{ business.id }}">
                         {{ business.business_name }}
                     </option>
 
