@@ -428,28 +428,57 @@ a {
 .project-page {
     width: 90%;
     max-width: 1200px;
+    margin: 0 auto;
     text-align: center;
+}
+
+.project-page h1{
+    margin-bottom: 25px;
 }
 
 .project-form-card {
     background-color: rgb(204, 250, 227);
     margin: 30px auto;
+    padding: 30px;
     max-width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.project-form-card h2{
+    margin-top: 0;
+    margin-bottom: 25px;
 }
 
 .project-form-card form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    text-align: left;
+}
+
+.project-form-card label{
+    font-weight: bold;
+    margin-top: 5px;
 }
 
 .project-form-card input,
 .project-form-card select {
-    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 12px;
     border: 1px solid #aaa;
-    border-radius: 6px;
+    border-radius: 7px;
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
+    background-color: white;
+}
+
+.project-form-card input:focus,
+.project-form-card select:focus {
+    outline: none;
+    border-color: darkseagreen;
+    box-shadow: 0 0 0 2px rgba(143, 188, 143, 0.25);
 }
 
 
@@ -458,7 +487,9 @@ a {
 .project-table-container {
     width: 100%;
     overflow-x: auto;
-    margin-top: 30px;
+    margin-top: 35px;
+    margin-bottom: 40px;
+    border-radius: 12px;
 }
 
 .project-table {
@@ -479,7 +510,12 @@ a {
 
 .project-table th {
     background-color: darkseagreen;
+    color: white;
     font-weight: bold;
+}
+
+.project-table tr:last-child td{
+    border-bottom: none;
 }
 
 .project-table tr:hover {
@@ -488,7 +524,7 @@ a {
 
 .project-buttons {
     display: flex;
-    justify-content: center;
+    align-items: center;
     gap: 8px;
 }
 
