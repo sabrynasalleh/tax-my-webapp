@@ -22,12 +22,12 @@ This project aims to bring all these workflows together in a centralised web app
 - **Template Inheritance:** Reusable page layouts using Jinja2.
 
 ### Planned / In Development
-- [] Income Management
-- [] Expense Management
-- [] Financial Dashboard
-- [] Document and Receipt Management
-- [] Financial Reprting
-- [] Malaysian Enterprise Tax Calculation Module
+- [ ] Income Management
+- [ ] Expense Management
+- [ ] Financial Dashboard
+- [ ] Document and Receipt Management
+- [ ] Financial Reporting
+- [ ] Malaysian Enterprise Tax Calculation Module
 
 ## Technology Stack
 | Technology | Purpose |
@@ -64,7 +64,7 @@ User
 
 - Python 3.10 or later, compatible with the project dependencies
 - Git
-- A code editor, (Ex: Visual Studio Code)
+- A code editor, (Ex: Visual Studio Code,...)
 
 ### 1. Clone the Repository
 
@@ -125,7 +125,7 @@ Open the local address displayed in your terminal, usually:
 
 ## Development Workflow
 
-The project uses Git feature branches to organise development and keep changes manageable
+The project uses Git feature branches to organise development and keep changes manageable.
 
 Example branches:
 
@@ -137,7 +137,7 @@ Example branches:
 - `feature/project-management`
 - `feature/income-management`
 
-Features are developed incrementally, comitted with descriptive messages, tested and merged into `main` when ready.
+Features are developed incrementally, committed with descriptive messages, tested and merged into `main` when ready.
 
 ## Project Goals
 
